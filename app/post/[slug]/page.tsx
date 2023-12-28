@@ -1,6 +1,8 @@
 import { Post } from "@/app/lib/interface";
 import { client } from "@/app/lib/sanity";
+import { urlFor } from "@/app/lib/sanityImageUrl";
 import { PortableText } from "@portabletext/react";
+import Image from "next/image";
 
 async function getdata(slug: String) {
   const query = `*[_type == "post" && slug.current == "${slug}"][0]`;
@@ -11,14 +13,20 @@ async function getdata(slug: String) {
 const PortableTextComponent = {
   types: {
     image: ({ value }: { value: any }) => {
-      <Image />;
+      <Image
+        src={urlFor(value).url()}
+        alt="Image"
+        className="rounded-lg"
+        width={800}
+        height={800}
+      />;
     },
   },
 };
 
 const Slugpage = async ({ params }: { params: { slug: string } }) => {
   const data = (await getdata(params.slug)) as Post;
-  console.log(data, ">>>>>>>>>>>>>>>>>>data");
+   // console.log(data, ">>>>>>>>>>>>>>>>>>data");
 
   return (
     <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
@@ -39,7 +47,10 @@ const Slugpage = async ({ params }: { params: { slug: string } }) => {
       <div className="divide-y divide-gray-200 pb-7 dark:divide-gray-700 xl:divide-y-0">
         <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3  xl:row-span-2 xl:pb-0 ">
           <div className="prose  max-w-none pb-8 pt-10 dark:prose-invert  prose-lg">
-            <PortableText value={data?.content} components={{}} />
+            <PortableText
+              value={data.content}
+              components={PortableTextComponent}
+            />
           </div>
         </div>
       </div>

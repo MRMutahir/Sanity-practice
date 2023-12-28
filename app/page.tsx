@@ -3,13 +3,14 @@ import { Post } from "./lib/interface";
 import { client } from "./lib/sanity";
 
 async function getData() {
-  const query = `*[_type == 'post']`;
+  const query = `*[_type == "post"]`;
   const data = await client.fetch(query);
   return data;
 }
 
 export default async function Home() {
   const data = (await getData()) as Post[];
+  console.log(data, "allblogs>>>>>>>>>>>>>>");
   return (
     <div className="divide-y divide-gray-200 dark:divide-gary-700">
       <div className="space-y-2 pt-5 pb-8 md:space-y-5">
