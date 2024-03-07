@@ -1,4 +1,5 @@
 export interface Post {
+    [x: string]: any;
     title: String,
     overview: String,
     _id: String,
@@ -6,4 +7,5 @@ export interface Post {
         current: String
     },
     _createdAt: String,
+    // content: String 
 }
